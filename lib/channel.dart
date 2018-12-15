@@ -1,5 +1,7 @@
 import 'package:group_feed/controller/KeyGenerator.dart';
 import 'package:group_feed/controller/APIKeyValidator.dart';
+import 'package:group_feed/controller/FeedProfile.dart';
+import 'package:group_feed/controller/GroupInitializer.dart';
 
 import 'group_feed.dart';
 
@@ -38,6 +40,15 @@ class GroupFeedChannel extends ApplicationChannel {
       .route("/api/gen")
       .link(() => APIKeyValidator())
       .link(() => KeyGenerator(_codeLength));
+
+    router
+      .route("/api/createGroup")
+      .link(() => APIKeyValidator())
+      .link(() => GroupInitializer());
+    
+    router
+        .route("/[:id]")
+        .link(() => FeedProfile());
 
     return router;
   }
