@@ -1,9 +1,15 @@
+import 'package:group_feed/controller/KeyGenerator.dart';
+import 'package:group_feed/controller/APIKeyValidator.dart';
+
 import 'group_feed.dart';
 
 /// This type initializes an application.
 ///
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://aqueduct.io/docs/http/channel/.
+
+const int _codeLength  = 9;
+
 class GroupFeedChannel extends ApplicationChannel {
   /// Initialize services in this method.
   ///
@@ -29,10 +35,9 @@ class GroupFeedChannel extends ApplicationChannel {
     // Prefer to use `link` instead of `linkFunction`.
     // See: https://aqueduct.io/docs/http/request_controller/
     router
-      .route("/example")
-      .linkFunction((request) async {
-        return Response.ok({"key": "value"});
-      });
+      .route("/api/gen")
+      .link(() => APIKeyValidator())
+      .link(() => KeyGenerator(_codeLength));
 
     return router;
   }
