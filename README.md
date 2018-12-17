@@ -18,4 +18,4 @@ The default configuration file used when testing is `config.src.yaml`. This file
 
 ## Deploying an Application
 
-See the documentation for [Deployment](https://aqueduct.io/docs/deploy/)."# group_feed" 
+See the documentation for [Deployment](https://aqueduct.io/docs/deploy/).
