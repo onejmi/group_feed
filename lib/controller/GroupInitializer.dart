@@ -4,13 +4,19 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:aqueduct/aqueduct.dart';
+import 'package:uuid/uuid.dart';
 
 class GroupInitializer extends Controller {
+
+  GroupInitializer(this.context);
+
+  ManagedContext context;
 
   @override
   FutureOr<RequestOrResponse> handle(Request request) async {
     final code = await _generateCode(request.raw.uri.queryParameters['apiKey']);
-    return Response.ok({"generated" : code});
+    final password = Uuid().v4();
+    return Response.ok({"code" : code});
   }
 
   Future<String> _generateCode(String apiKey) async {
