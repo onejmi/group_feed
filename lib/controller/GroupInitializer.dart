@@ -6,6 +6,8 @@ import 'dart:io';
 import 'package:aqueduct/aqueduct.dart';
 import 'package:uuid/uuid.dart';
 
+import 'package:group_feed/model/Group.dart';
+
 class GroupInitializer extends Controller {
 
   GroupInitializer(this.context);
@@ -16,6 +18,7 @@ class GroupInitializer extends Controller {
   FutureOr<RequestOrResponse> handle(Request request) async {
     final code = await _generateCode(request.raw.uri.queryParameters['apiKey']);
     final password = Uuid().v4();
+    final query = Query<Group>(context)..values.password = password as String..values.code = code;
     return Response.ok({"code" : code});
   }
 
