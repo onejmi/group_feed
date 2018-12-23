@@ -1,17 +1,19 @@
 
-import 'package:aqueduct/aqueduct.dart';
+import 'package:group_feed/group_feed.dart';
 
 class FeedProfile extends ResourceController {
 
-  @Operation.get()
-  Future<Response> getDefaultFeed() async {
-    final defaultEntries = {}; //TODO (grab default entries)
-    return Response.ok(defaultEntries);
-  }
+  FeedProfile(this.database);
+
+  final Db database;
 
   @Operation.get('id')
   Future<Response> getFeedById(@Bind.path('id') String feedCode) async {
-    final feedCodeEntries = {}; //TODO (grab entries by code)
-    return Response.ok(feedCodeEntries);
+    final feedCodeEntries = await database.collection("groups").findOne(where.eq("code", feedCode));
+    if(feedCodeEntries == null) {
+      return Response.notFound(body: {"error" : "Could not find the specified feed"});
+    }
+    return Response.ok(feedCodeEntries['posts']);
   }
+
 }
